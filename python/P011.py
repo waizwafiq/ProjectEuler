@@ -39,7 +39,7 @@ def GridToList(grid: str) -> List[List[int]]:
     '''
     return [[int(col) for col in row.split(" ")] for row in grid.split('\n') if row != '']
 
-def horizontal(grid:str, n:int):
+def horizontal(grid:str, n:int) -> int:
     '''get maximum product in the left/right direction (horizontal)\n
         *00* *01* *02* *03* ...\n
         10   11   12   13 ...\n
@@ -47,7 +47,7 @@ def horizontal(grid:str, n:int):
         30   31   32   33 ...\n
     :param grid: the string of the grid
     :param n: the length of the adjacent numbers required
-    :return: the greatest product in the horizontal direction
+    :return: the greatest product in the horizontal direction and the digits
     '''
     grid = GridToList(grid) #convert grid to 2D list
     height, width, ans = len(grid), len(grid[0]), 0
@@ -57,7 +57,7 @@ def horizontal(grid:str, n:int):
         prod = reduce(mul, digits, 1) #get the product of the digits
         if prod > ans:
             max_dig = []
-            max_dig.append(digits)
+            max_dig.extend(digits)
         ans = max(ans, prod) #get the greatest product
 
     return ans, max_dig
@@ -70,7 +70,7 @@ def vertical(grid:str, n:int) -> int:
         **30** 31 32 33 ...\n
     :param grid: the string of the grid
     :param n: the length of the adjacent numbers required
-    :return: the greatest product in the vertical direction
+    :return: the greatest product in the vertical direction and the digits
     '''
     grid = GridToList(grid) #convert grid to 2D list
     height, width, ans = len(grid), len(grid[0]), 0
@@ -81,7 +81,7 @@ def vertical(grid:str, n:int) -> int:
         prod = reduce(mul, digits, 1)
         if prod > ans:
             max_dig = []
-            max_dig.append(digits)
+            max_dig.extend(digits)
         ans = max(ans, prod)
     return ans, max_dig
 
@@ -93,7 +93,7 @@ def down_diagonal(grid:str, n:int) -> int:
         30  31  32 **33** ... \n
         :param grid: the string of the grid
         :param n: the length of the adjacent numbers required
-        :return: the greatest product in the vertical direction
+        :return: the greatest product in the down diagonal direction and the digits
         '''
     grid = GridToList(grid) #convert grid to 2D list
     height, width, ans = len(grid), len(grid[0]), 0
@@ -103,7 +103,7 @@ def down_diagonal(grid:str, n:int) -> int:
         prod = reduce(mul, digits, 1)
         if prod > ans:
             max_dig = []
-            max_dig.append(digits)
+            max_dig.extend(digits)
         ans = max(ans, prod)
     return ans, max_dig
 
@@ -115,7 +115,7 @@ def up_diagonal (grid:str, n:int) -> int:
         **30** 31  32  33  ...\n
         :param grid: the string of the grid
         :param n: the length of the adjacent numbers required
-        :return: the greatest product in the vertical direction
+        :return: the greatest product in the up diagonal direction and the digits
         '''
     grid = GridToList(grid)  # convert grid to 2D list
     height, width, ans = len(grid), len(grid[0]), 0
@@ -125,7 +125,7 @@ def up_diagonal (grid:str, n:int) -> int:
         prod = reduce(mul, digits, 1)
         if prod > ans:
             max_dig = []
-            max_dig.append(digits)
+            max_dig.extend(digits)
         ans = max(ans, prod)
     return ans, max_dig
 
@@ -152,11 +152,11 @@ grid = '''08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 '''
 
 n = 4 #the length of the adjacent numbers required
-dir = ["horizontal","vertical","up diagonal","down diagonal"]
+dir = ["horizontal","vertical","up diagonal","down diagonal"] #the labels
 ans = [horizontal(grid,n)[0], vertical(grid,n)[0],
            up_diagonal(grid,n)[0], down_diagonal(grid,n)[0]]
-dig = [horizontal(grid,n)[1][0], vertical(grid,n)[1][0],
-           up_diagonal(grid,n)[1][0], down_diagonal(grid,n)[1][0]]
+dig = [horizontal(grid,n)[1], vertical(grid,n)[1],
+           up_diagonal(grid,n)[1], down_diagonal(grid,n)[1]]
 out = max(ans)
 
 #PRINT
