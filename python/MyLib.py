@@ -16,6 +16,19 @@ def isPrime(num) -> bool:
             return False
     return True
 
+def fastPrimes(n: int):
+    '''Reference:
+    https://stackoverflow.com/questions/2068372/fastest-way-to-list-all-primes-below-n-in-python/3035188#3035188
+    '''
+    import numpy as np
+    sieve = np.ones(n // 3 + (n % 6 == 2), dtype=np.bool)
+    for i in range(1, int(n ** 0.5) // 3 + 1):
+        if sieve[i]:
+            k = 3*i + 1 | 1
+            sieve[          k * k//3       :: 2*k] = False
+            sieve[k * (k-2 * (i&1) + 4)//3 :: 2*k] = False
+    return np.r_[2, 3, ((3 * np.nonzero(sieve)[0][1:] + 1) | 1)]
+
 def isPalindrome(num) -> bool:
     ori, reverse = num, 0
     while num>0:
@@ -25,12 +38,17 @@ def isPalindrome(num) -> bool:
 
 def getDivisors(num) -> List[int]:
     divisors = [1, num]
-    for i in range(2,int(math.sqrt(num))+1): #from 2 until sqrt(num), a quick process
+    for i in range(2,int(math.sqrt(num))+1):
         if num%i == 0:
             divisors.extend([i, num//i])
-    return sorted(set(divisors)) #set() to avoid duplication, sorted() to sort the numbers ascendingly
+    return sorted(set(divisors))
 
 def getNthTriangleNum(N:int) -> int:
     sum = 0
     for i in range(1,N+1): sum+=i
     return sum
+
+def permutate(num: int):
+    from itertools import permutations as P
+    digs = [int(x) for x in str(num)] #get the digits list of num
+    return set(P(digs))
