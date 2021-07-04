@@ -24,7 +24,7 @@ ll findlcm(long arr[], int n)
     // after i'th iteration,
     for (int i = 1; i < n; i++)
         ans = (((arr[i] * ans)) / (gcd(arr[i], ans)));
- 
+
     return ans;
 }
  
